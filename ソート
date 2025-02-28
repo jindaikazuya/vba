@@ -1,0 +1,9 @@
+// このマクロは、Sheet5 のセル範囲 A1 を基準に、C1 にある値を昇順で並べ替えます。また、並べ替えの際には、
+// 最初の行をヘッダーとして扱い、並べ替えの対象外とします。
+// このコードを実行すると、Sheet5 の A1 セルを基準に、C列のデータを昇順で並べ替える処理が行われます。
+
+Sub Sort()
+    Dim ws As Worksheet
+    Set ws = ThisWorkbook.Sheets("Sheet5")
+    Range("A1").Sort key1:=Range("C1"), order1:=xlAscending, Header:=xlYes
+End Sub
