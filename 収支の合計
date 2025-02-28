@@ -1,0 +1,26 @@
+Sub CalculateTotalBalance()
+    Dim ws As Worksheet
+    Dim lastRow As Long
+    Dim totalIncome As Double, totalExpense As Double, totalBalance As Double
+
+    ' シートを指定
+    Set ws = ThisWorkbook.Sheets("財務データ")
+
+    ' 最終行を取得
+    lastRow = ws.Cells(Rows.Count, 1).End(xlUp).Row
+
+    ' 収入合計
+    totalIncome = Application.WorksheetFunction.Sum(ws.Range("B2:B" & lastRow))
+
+    ' 支出合計
+    totalExpense = Application.WorksheetFunction.Sum(ws.Range("C2:C" & lastRow))
+
+    ' 収支合計（収入 - 支出）
+    totalBalance = totalIncome - totalExpense
+
+    ' 結果を表示
+    MsgBox "総収入：" & totalIncome & vbCrLf & _
+           "総支出：" & totalExpense & vbCrLf & _
+           "収支：" & totalBalance, vbInformation, "財務集計結果"
+End Sub
+
