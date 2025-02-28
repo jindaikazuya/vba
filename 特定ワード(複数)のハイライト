@@ -1,0 +1,27 @@
+Sub SearchAccountTitle()
+    Dim ws As Worksheet
+    Dim lastRow As Long
+    Dim searchValue As String
+    Dim cell As Range
+    
+    ' シートを指定
+    Set ws = ThisWorkbook.Sheets("財務データ")
+
+    ' 最終行を取得
+    lastRow = ws.Cells(Rows.Count, 2).End(xlUp).Row
+
+    ' 検索する勘定科目を指定
+    searchValue = "売上"
+
+    ' すべてのセルのハイライトをリセット
+    ws.Range("B2:B" & lastRow).Interior.ColorIndex = xlNone
+
+    ' B列（勘定科目）の中から検索
+    For Each cell In ws.Range("B2:B" & lastRow)
+        If cell.Value = searchValue Then
+            cell.Interior.Color = RGB(255, 255, 0) ' 黄色にハイライト
+        End If
+    Next cell
+
+    MsgBox "勘定科目 '" & searchValue & "' をハイライトしました。", vbInformation
+End Sub

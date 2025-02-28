@@ -1,0 +1,36 @@
+Sub FilterByYear()
+    Dim wsSource As Worksheet, wsResult As Worksheet
+    Dim lastRow As Long, copyRow As Long
+    Dim startDate As Date, endDate As Date
+    Dim cell As Range
+
+    ' シートを指定
+    Set wsSource = ThisWorkbook.Sheets("財務データ1")
+    Set wsResult = ThisWorkbook.Sheets("抽出結果")
+
+    ' 2024年度の期間を指定
+    startDate = DateValue("2024/04/01")
+    endDate = DateValue("2025/03/31")
+
+    ' 最終行を取得
+    lastRow = wsSource.Cells(Rows.Count, 1).End(xlUp).Row
+
+    ' 結果シートをクリア
+    wsResult.Cells.Clear
+    wsResult.Range("A1:C1").Value = Array("日付", "取引ID", "金額")
+
+    ' 抽出データの書き込み行
+    copyRow = 2
+
+    ' A列の日付をチェックして、範囲内ならコピー
+    For Each cell In wsSource.Range("A2:A" & lastRow)
+        If cell.Value >= startDate And cell.Value <= endDate Then
+            wsResult.Cells(copyRow, 1).Value = cell.Value
+            wsResult.Cells(copyRow, 2).Value = cell.Offset(0, 1).Value
+            wsResult.Cells(copyRow, 3).Value = cell.Offset(0, 2).Value
+            copyRow = copyRow + 1
+        End If
+    Next cell
+
+    MsgBox "2024年度のデータを抽出しました。", vbInformation
+End Sub
