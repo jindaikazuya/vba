@@ -1,0 +1,13 @@
+; このマクロは、Sheet5 の範囲 A1:C9 に条件付き書式を適用し、セルの値が「魚」に一致する場合、
+; そのセルの背景色を薄い灰色（RGB(204, 204, 204)）に変更します。条件付き書式が適用されるのは、範囲内の「魚」という値を含むセルだけです。
+; 既存の条件付き書式を削除してから、新しい条件付き書式を設定します。
+; 「魚」という文字がセルに含まれると、そのセルの背景色が薄い灰色に変更されます。
+
+Sub Interior_Color()
+    Dim ws As Worksheet
+    Dim frmSetting As Object
+    Set ws = ThisWorkbook.Sheets("Sheet5")
+    ws.Range("A1:C9").FormatConditions.Delete
+    Set frmSetting = ws.Range("A1:C9").FormatConditions.Add(Type:=xlCellValue, Operator:=xlEqual, Formula1:="魚")
+    frmSetting.Interior.Color = RGB(204, 204, 204)
+End Sub
