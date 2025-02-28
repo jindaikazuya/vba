@@ -1,0 +1,48 @@
+Sub AggregateByDepartment()
+    Dim wsData As Worksheet, wsReport As Worksheet
+    Dim lastRow As Long
+    Dim dict As Object
+    Dim i As Long
+    Dim department As String, amount As Double
+
+    ' シートを指定
+    Set wsData = ThisWorkbook.Sheets("データシート")
+    Set wsReport = ThisWorkbook.Sheets("集計シート")
+
+    ' 最終行を取得
+    lastRow = wsData.Cells(Rows.Count, 1).End(xlUp).Row
+
+    ' Dictionaryオブジェクトを作成（部署ごとに合計）
+    Set dict = CreateObject("Scripting.Dictionary")
+
+    ' データをループ処理
+    For i = 2 To lastRow
+        department = wsData.Cells(i, 1).Value
+        amount = wsData.Cells(i, 2).Value
+
+        ' すでに登録されている場合は加算
+        If dict.exists(department) Then
+            dict(department) = dict(department) + amount
+        Else
+            dict.Add department, amount
+        End If
+    Next i
+
+    ' 集計シートのデータをクリア
+    wsReport.Cells.Clear
+
+    ' ヘッダーを設定
+    wsReport.Range("A1").Value = "部署"
+    wsReport.Range("B1").Value = "合計支出"
+
+    ' 結果を書き込み
+    i = 2
+    Dim key As Variant
+    For Each key In dict.keys
+        wsReport.Cells(i, 1).Value = key
+        wsReport.Cells(i, 2).Value = dict(key)
+        i = i + 1
+    Next key
+
+    MsgBox "部署ごとの財務データを集計しました。", vbInformation
+End Sub

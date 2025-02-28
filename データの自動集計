@@ -1,0 +1,10 @@
+Sub CalculateDifference()
+    Dim ws As Worksheet
+    Dim lastRow As Long
+    Set ws = ThisWorkbook.Sheets("財務データ")
+    
+    lastRow = ws.Cells(Rows.Count, 1).End(xlUp).Row
+    
+    ws.Range("D2:D" & lastRow).Formula = "=B2-C2"
+    MsgBox "予算と実績の差異を計算しました。", vbInformation, "情報アイコン"
+End Sub
